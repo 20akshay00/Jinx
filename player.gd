@@ -2,6 +2,9 @@ extends KinematicBody
 
 onready var head = $Head
 onready var sprint_timer = $SprintTimer
+onready var aimcast = $Head/Camera/AimCast
+onready var staff_tip = $Head/Staff/StaffTip
+onready var spellScene = preload("res://Spell.tscn")
 
 var move_dir = Vector3.ZERO
 var velocity = Vector3.ZERO
@@ -25,7 +28,19 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
-
+	
+	# quit game debug
+	if Input.is_action_just_pressed("ui_quit"):	
+		get_tree().quit()
+		
+	# Spell casting
+	if Input.is_action_just_pressed("cast"):
+		if aimcast.is_colliding():
+			var spell = spellScene.instance()
+			staff_tip.add_child(spell)
+			spell.look_at(aimcast.get_collision_point(), Vector3.UP)
+			spell.cast = true
+		
 	# Sprinting
 	speed = DEF_SPEED
 	
