@@ -10,6 +10,7 @@ var move_dir = Vector3.ZERO
 var velocity = Vector3.ZERO
 var snap_vector = Vector3.ZERO
 var speed 
+var spell_combination = ""
 
 var is_sprinting = false
 
@@ -34,12 +35,23 @@ func _physics_process(delta):
 		get_tree().quit()
 		
 	# Spell casting
-	if Input.is_action_just_pressed("cast"):
+	if Input.is_action_just_pressed("spellA"):
+		if len(spell_combination) < 3:
+			spell_combination += "A"
+			
+	if Input.is_action_just_pressed("spellB"):
+		if len(spell_combination) < 3:
+			spell_combination += "B"		
+			
+	if Input.is_action_just_pressed("cast") and len(spell_combination):
 		if aimcast.is_colliding():
 			var spell = spellScene.instance()
 			staff_tip.add_child(spell)
 			spell.look_at(aimcast.get_collision_point(), Vector3.UP)
+			spell.type = spell_combination
 			spell.cast = true
+		
+		spell_combination = ""
 		
 	# Sprinting
 	speed = DEF_SPEED

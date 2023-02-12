@@ -4,6 +4,9 @@
 extents = Vector3( 300, 1, 300 )
 
 [node name="SkyBox" type="StaticBody"]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="yBottom" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -300, 0 )

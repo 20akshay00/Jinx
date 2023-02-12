@@ -11,6 +11,9 @@ size = Vector3( 0.5, 0.5, 1.5 )
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 GRAVITY = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
