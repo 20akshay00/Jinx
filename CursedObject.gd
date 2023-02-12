@@ -2,7 +2,7 @@ extends KinematicBody
 
 export var spell_types = ["AAA", "AAB", "ABA", "ABB", "BAA", "BAB", "BBA", "BBB"]
 
-var health = 3
+var health = 1
 var spell_type
 
 onready var label = $Label3D

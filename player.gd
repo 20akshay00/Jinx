@@ -3,7 +3,8 @@ extends KinematicBody
 onready var head = $Head
 onready var sprint_timer = $SprintTimer
 onready var aimcast = $Head/Camera/AimCast
-onready var staff_tip = $Head/Staff/StaffTip
+onready var staff = $Head/Hand/Staff
+onready var staff_tip = $Head/Hand/Staff/StaffTip
 onready var HUD_spell = $Head/Camera/HUD/Spell
 
 onready var spellScene = preload("res://Spell.tscn")
@@ -13,6 +14,7 @@ var velocity = Vector3.ZERO
 var snap_vector = Vector3.ZERO
 var speed 
 var spell_combination = ""
+var spell_count = 1
 
 var is_sprinting = false
 
@@ -36,22 +38,35 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_quit"):	
 		get_tree().quit()
 		
+	# spell count swapping
+	if Input.is_action_just_released("switch_up"):
+		spell_count = spell_count % 3 + 1
+	elif Input.is_action_just_released("switch_down"):
+		spell_count = (spell_count + 1) % 3 + 1
+	
+	if Input.is_action_just_pressed("switch_slot1"):
+		spell_count = 1
+	elif Input.is_action_just_pressed("switch_slot2"):
+		spell_count = 2
+	elif Input.is_action_just_pressed("switch_slot3"):
+		spell_count = 3 
+		
 	# spell casting
 	if Input.is_action_just_pressed("spellA"):
-		if len(spell_combination) < 3:
+		if len(spell_combination) < spell_count:
 			spell_combination += "A"
 			
 	if Input.is_action_just_pressed("spellB"):
-		if len(spell_combination) < 3:
+		if len(spell_combination) < spell_count:
 			spell_combination += "B"		
 	
 	# HUD spell combo display
 	if len(spell_combination) > 0:
 		HUD_spell.text = spell_combination
 	else:
-		HUD_spell.text = "_ _ _"		
+		HUD_spell.text = "_ ".repeat(spell_count)		
 		
-	if Input.is_action_just_pressed("cast") and len(spell_combination):
+	if len(spell_combination) == spell_count:
 		if aimcast.is_colliding():
 			var spell = spellScene.instance()
 			staff_tip.add_child(spell)
