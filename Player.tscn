@@ -26,12 +26,26 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -1 )
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00596762, 0, -0.00777745 )
 
-[node name="CenterContainer" type="CenterContainer" parent="Head/Camera"]
+[node name="HUD" type="Control" parent="Head/Camera"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Spell" type="Label" parent="Head/Camera/HUD"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -34.0
+margin_bottom = -20.0
+text = "_ _ _ "
+align = 1
+valign = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Head/Camera/HUD"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="Head/Camera/CenterContainer"]
+[node name="Crosshair" type="TextureRect" parent="Head/Camera/HUD/CenterContainer"]
 margin_left = 512.0
 margin_top = 300.0
 margin_right = 512.0

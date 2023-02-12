@@ -4,6 +4,8 @@ onready var head = $Head
 onready var sprint_timer = $SprintTimer
 onready var aimcast = $Head/Camera/AimCast
 onready var staff_tip = $Head/Staff/StaffTip
+onready var HUD_spell = $Head/Camera/HUD/Spell
+
 onready var spellScene = preload("res://Spell.tscn")
 
 var move_dir = Vector3.ZERO
@@ -34,7 +36,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("ui_quit"):	
 		get_tree().quit()
 		
-	# Spell casting
+	# spell casting
 	if Input.is_action_just_pressed("spellA"):
 		if len(spell_combination) < 3:
 			spell_combination += "A"
@@ -42,7 +44,13 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("spellB"):
 		if len(spell_combination) < 3:
 			spell_combination += "B"		
-			
+	
+	# HUD spell combo display
+	if len(spell_combination) > 0:
+		HUD_spell.text = spell_combination
+	else:
+		HUD_spell.text = "_ _ _"		
+		
 	if Input.is_action_just_pressed("cast") and len(spell_combination):
 		if aimcast.is_colliding():
 			var spell = spellScene.instance()
@@ -53,7 +61,7 @@ func _physics_process(delta):
 		
 		spell_combination = ""
 		
-	# Sprinting
+	# sprinting
 	speed = DEF_SPEED
 	
 	if Input.is_action_just_pressed("sprint"):
@@ -62,7 +70,7 @@ func _physics_process(delta):
 	if is_sprinting: 
 		speed = SPRINT_SPEED
 		
-	# Vertical movement
+	# vertical movement
 	snap_vector = Vector3.DOWN
 	
 	if not is_on_floor():
@@ -73,7 +81,7 @@ func _physics_process(delta):
 			velocity.y = JUMP_SPEED
 			snap_vector = Vector3.ZERO
 	
-	# Horizontal movement
+	# horizontal movement
 	move_dir = Vector3(
 		Input.get_action_strength("right") - Input.get_action_strength("left"), 
 		0,  
