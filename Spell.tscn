@@ -35,4 +35,5 @@ collision_layer = 0
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 4 )
 
+[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

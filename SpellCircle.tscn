@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://SpellCircle.gd" type="Script" id=1]
+
+[sub_resource type="CylinderMesh" id=1]
+top_radius = 4.0
+bottom_radius = 4.0
+height = 0.01
+
+[sub_resource type="Shader" id=3]
+code = "/*
+	魔法防御シェーダー 2 by あるる（きのもと 結衣）
+	Magical Shield Shader 2 by Yui Kinomoto @arlez80
+
+	MIT License
+*/
+
+shader_type spatial;
+render_mode unshaded, depth_draw_never;
+
+uniform vec4 barrier_color : hint_color = vec4( 0.05, 1.0, 0.5, 1.0 );
+uniform float barrier_force = 1.0;
+uniform float barrier_interval = 50.0;
+uniform float barrier_speed = 10.0;
+
+void fragment( )
+{
+	vec3 v = ( CAMERA_MATRIX * vec4( VERTEX, 1.0 ) ).xyz;
+	float f = sin( v.y * barrier_interval + TIME * barrier_speed );
+	ALBEDO = barrier_color.rgb;
+	ALPHA = clamp( ( 1.0 - dot( NORMAL, VIEW ) ) * f * barrier_force, 0.0, 1.0 );
+}
+"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/barrier_color = Color( 0.05, 1, 0.5, 1 )
+shader_param/barrier_force = 2.0
+shader_param/barrier_interval = 15.0
+shader_param/barrier_speed = 15.0
+
+[sub_resource type="CylinderMesh" id=5]
+material = SubResource( 4 )
+top_radius = 4.0
+bottom_radius = 4.0
+height = 10.0
+
+[sub_resource type="CylinderShape" id=2]
+height = 10.0
+radius = 4.0
+
+[node name="SpellCircle" type="Spatial"]
+script = ExtResource( 1 )
+num_runes = 7
+
+[node name="Base" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+
+[node name="ForceField" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+visible = false
+mesh = SubResource( 5 )
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+shape = SubResource( 2 )
+
+[node name="Runes" type="Spatial" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

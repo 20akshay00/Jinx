@@ -41,16 +41,19 @@ func _physics_process(delta):
 	# spell count swapping
 	if Input.is_action_just_released("switch_up"):
 		spell_count = spell_count % 3 + 1
+		spell_combination = ""
 	elif Input.is_action_just_released("switch_down"):
 		spell_count = (spell_count + 1) % 3 + 1
-	
+		spell_combination = ""
 	if Input.is_action_just_pressed("switch_slot1"):
 		spell_count = 1
+		spell_combination = ""
 	elif Input.is_action_just_pressed("switch_slot2"):
 		spell_count = 2
+		spell_combination = ""
 	elif Input.is_action_just_pressed("switch_slot3"):
 		spell_count = 3 
-		
+		spell_combination = ""
 	# spell casting
 	if Input.is_action_just_pressed("spellA"):
 		if len(spell_combination) < spell_count:
@@ -72,7 +75,7 @@ func _physics_process(delta):
 			staff_tip.add_child(spell)
 			spell.look_at(aimcast.get_collision_point(), Vector3.UP)
 			spell.type = spell_combination
-			spell.cast = true
+			spell.cast()
 		
 		spell_combination = ""
 		

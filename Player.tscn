@@ -65,7 +65,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00029999, 0.000157833, 0.000
 skeleton = NodePath("../..")
 
 [node name="SprintTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 3.0
 one_shot = true
+
+[node name="SprintRechargeTimer" type="Timer" parent="."]
 
 [connection signal="timeout" from="SprintTimer" to="." method="_on_SprintTimer_timeout"]
