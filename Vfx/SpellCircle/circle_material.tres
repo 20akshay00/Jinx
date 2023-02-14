@@ -1,3 +1,6 @@
-[gd_resource type="ShaderMaterial" format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
 
 [resource]
+shader = SubResource( 1 )

@@ -5,3 +5,12 @@
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
+ambient_light_energy = 0.5
+ssao_enabled = true
+ssao_quality = 2
+glow_enabled = true
+glow_strength = 1.3
+glow_blend_mode = 1
+glow_hdr_threshold = 2.0
+glow_bicubic_upscale = true
+glow_high_quality = true

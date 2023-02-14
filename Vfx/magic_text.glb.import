@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/circles.glb-fe6366578ea2aeafe15037261beb8774.scn"
+path="res://.import/magic_text.glb-df70218afd5369654a9f22d68191fac2.scn"
 
 [deps]
 
-source_file="res://Vfx/SpellCircle/circles.glb"
-dest_files=[ "res://.import/circles.glb-fe6366578ea2aeafe15037261beb8774.scn" ]
+source_file="res://Vfx/magic_text.glb"
+dest_files=[ "res://.import/magic_text.glb-df70218afd5369654a9f22d68191fac2.scn" ]
 
 [params]
 
@@ -16,14 +16,14 @@ nodes/root_name="Scene Root"
 nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
-nodes/use_legacy_names=false
+nodes/use_legacy_names=true
 materials/location=1
-materials/storage=1
-materials/keep_on_reimport=true
+materials/storage=0
+materials/keep_on_reimport=false
 meshes/octahedral_compression=true
 meshes/compress=4286
 meshes/ensure_tangents=true
-meshes/storage=0
+meshes/storage=1
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true

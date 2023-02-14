@@ -1,6 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://SpellCircle.gd" type="Script" id=1]
+[ext_resource path="res://Vfx/SpellCircle/circles/circles_5.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://Vfx/SpellCircle/circles/circles_border.mesh" type="ArrayMesh" id=3]
+[ext_resource path="res://Vfx/SpellCircle/spell_circle_border_material.tres" type="Material" id=4]
+[ext_resource path="res://Vfx/Textures/clouds_blurred.png" type="Texture" id=5]
+[ext_resource path="res://Vfx/Textures/example-21.png" type="Texture" id=6]
+[ext_resource path="res://Vfx/Shaders/vfx1_shader.tres" type="Shader" id=7]
+[ext_resource path="res://Vfx/purple_grad.tres" type="Texture" id=8]
+[ext_resource path="res://Vfx/magic_text_Text.mesh" type="ArrayMesh" id=9]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 4.0
@@ -49,6 +57,75 @@ height = 10.0
 height = 10.0
 radius = 4.0
 
+[sub_resource type="Curve" id=47]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=48]
+curve = SubResource( 47 )
+
+[sub_resource type="Curve" id=49]
+_data = [ Vector2( 0, 0 ), 0.0, 5.50877, 0, 1, Vector2( 0.181529, 1 ), 0.100642, 0.100642, 0, 0, Vector2( 0.238853, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=50]
+curve = SubResource( 49 )
+
+[sub_resource type="ShaderMaterial" id=46]
+shader = ExtResource( 7 )
+shader_param/brightness = 2.0
+shader_param/main_pan_scale = Plane( 0.5, 0.386, 4, 4 )
+shader_param/warp_pan_scale = Plane( 0, 0, 1, 1 )
+shader_param/warp_strength = 1.0
+shader_param/alpha_uv_grad_axis = true
+shader_param/alpha_uv_grad_uv2 = true
+shader_param/main2d = ExtResource( 5 )
+shader_param/warp2d = ExtResource( 6 )
+shader_param/color_grad2d = ExtResource( 8 )
+shader_param/alpha_uv_grad_curve2d = SubResource( 50 )
+shader_param/alpha_curve2d = SubResource( 48 )
+
+[sub_resource type="Curve" id=51]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=52]
+curve = SubResource( 51 )
+
+[sub_resource type="Curve" id=53]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=54]
+curve = SubResource( 53 )
+
+[sub_resource type="ShaderMaterial" id=55]
+shader = ExtResource( 7 )
+shader_param/brightness = 2.0
+shader_param/main_pan_scale = Plane( 0.5, 0.25, 1, 1 )
+shader_param/warp_pan_scale = Plane( 0, 0, 1, 1 )
+shader_param/warp_strength = 1.0
+shader_param/alpha_uv_grad_axis = true
+shader_param/alpha_uv_grad_uv2 = false
+shader_param/main2d = ExtResource( 5 )
+shader_param/warp2d = ExtResource( 6 )
+shader_param/color_grad2d = ExtResource( 8 )
+shader_param/alpha_uv_grad_curve2d = SubResource( 54 )
+shader_param/alpha_curve2d = SubResource( 52 )
+
+[sub_resource type="Animation" id=56]
+resource_name = "New Anim"
+length = 10.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
 [node name="SpellCircle" type="Spatial"]
 script = ExtResource( 1 )
 num_runes = 7
@@ -70,5 +147,31 @@ shape = SubResource( 2 )
 [node name="Runes" type="Spatial" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25215, 0 )
+light_color = Color( 0.584314, 0.172549, 1, 1 )
+light_energy = 1.5
+omni_range = 7.97792
+omni_attenuation = 0.1
+
+[node name="circles_border" type="MeshInstance" parent="."]
+transform = Transform( 3.99122, 0, 0, 0, 1, 0, 0, 0, 3.99122, 0, 0, 0 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 4 )
+
+[node name="circles_5" type="MeshInstance" parent="."]
+transform = Transform( 3.32737, 0, 0, 0, 1, 0, 0, 0, 3.32737, 0, 0.0990458, 0 )
+mesh = ExtResource( 2 )
+material/0 = SubResource( 46 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( -0.307165, 0, 0.827517, 0, 1, 0, -0.827517, 0, -0.307165, 0, 0.147485, 0 )
+mesh = ExtResource( 9 )
+material/0 = SubResource( 55 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance"]
+autoplay = "New Anim"
+"anims/New Anim" = SubResource( 56 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
