@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/perlin.png-55c86f4c2f4e8aa918dc54981f10e694.image"
+
+[deps]
+
+source_file="res://VillageGen/perlin.png"
+dest_files=[ "res://.import/perlin.png-55c86f4c2f4e8aa918dc54981f10e694.image" ]
+
+[params]
+

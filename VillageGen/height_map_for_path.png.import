@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/height_map_for_path.png-faaeb5784693d037a245c0e07e879323.image"
+
+[deps]
+
+source_file="res://VillageGen/height_map_for_path.png"
+dest_files=[ "res://.import/height_map_for_path.png-faaeb5784693d037a245c0e07e879323.image" ]
+
+[params]
+
