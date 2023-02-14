@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://RuneSprite/GWJ-2-23-runes.png" type="Texture" id=1]
+
+[node name="RuneSprite" type="Sprite3D"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0466837, 0 )
+offset = Vector2( 0, 150 )
+pixel_size = 0.0026
+billboard = 1
+texture = ExtResource( 1 )
+hframes = 4

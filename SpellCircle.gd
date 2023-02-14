@@ -1,7 +1,7 @@
 extends Spatial
 
 export var num_runes = 5 
-export var spell_types = ["AA", "AB", "BA", "BB"]
+export var spell_types = [0, 1, 2, 3]
 export var active_color = Color(0.05, 1.0, 0.5, 1.0)
 export var inactive_color = Color(1.0, 1.0, 1.0, 1.0)
 
@@ -22,20 +22,18 @@ func _ready():
 	
 	for i in num_runes:
 		var rune = Spatial.new()
-		var rune_text = Label3D.new()
+		var rune_text = preload("res://RuneSprite/RuneSprite.tscn").instance()
 		
-		rune_text.text = spell_types[randi() % spell_types.size()]
-		rune_text.pixel_size = 0.05
-		rune_text.translate(Vector3(0, 0.1, 3.25))
-		rune_text.rotate_x(deg2rad(-90))
+		rune_text.frame = spell_types[randi() % spell_types.size()]
+		rune_text.translate(Vector3(0, 0, 3.25))
 		
 		rune.add_child(rune_text)
 		rune.rotate_y(deg2rad((i - 1) * 360/num_runes))
 		
-		self.add_child(rune)
+		add_child(rune)
 		
-		spell_list.append(rune_text.text)
-		temp_spell_list.append(rune_text.text)
+		spell_list.append(rune_text.frame)
+		temp_spell_list.append(rune_text.frame)
 		temp_idx_list.append(i)
 		
 		rune_list.append(rune_text)
