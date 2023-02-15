@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/example-21.png-9388bb300ac48d36daa68aa3390fa98f.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Vfx/Textures/example-21.png"
+dest_files=[ "res://.import/example-21.png-9388bb300ac48d36daa68aa3390fa98f.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=1
+flags/repeat=1
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=true
+flags/srgb=2
+process/fix_alpha_border=false
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

@@ -1,0 +1,40 @@
+[gd_resource type="ShaderMaterial" load_steps=10 format=2]
+
+[ext_resource path="res://Vfx/Textures/clouds_blurred.png" type="Texture" id=1]
+[ext_resource path="res://Vfx/Textures/example-21.png" type="Texture" id=2]
+[ext_resource path="res://Vfx/Shaders/vfx1_shader.tres" type="Shader" id=3]
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="Curve" id=12]
+_data = [ Vector2( 0, 0 ), 0.0, 0.97135, 0, 0, Vector2( 0.690909, 1 ), 0.202537, 0.202537, 0, 0, Vector2( 1, 0 ), -9.06593, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=13]
+curve = SubResource( 12 )
+
+[sub_resource type="Gradient" id=3]
+resource_local_to_scene = true
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.562842, 1 )
+colors = PoolColorArray( 0.410156, 0.1474, 0.406051, 1, 0.712387, 0.283829, 0.816406, 1, 1, 0.628906, 0.985504, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[resource]
+shader = ExtResource( 3 )
+shader_param/brightness = 2.0
+shader_param/main_pan_scale = Plane( 0.5, 0.7, 5, 0.5 )
+shader_param/warp_pan_scale = Plane( 0, 0, 5, 0.5 )
+shader_param/warp_strength = 0.25
+shader_param/alpha_uv_grad_axis = false
+shader_param/alpha_uv_grad_uv2 = null
+shader_param/main2d = ExtResource( 1 )
+shader_param/warp2d = ExtResource( 2 )
+shader_param/color_grad2d = SubResource( 4 )
+shader_param/alpha_uv_grad_curve2d = SubResource( 13 )
+shader_param/alpha_curve2d = SubResource( 11 )

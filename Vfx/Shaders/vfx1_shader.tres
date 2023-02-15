@@ -1,0 +1,36 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform float brightness = 1;
+
+uniform sampler2D main2d;
+uniform vec4 main_pan_scale = vec4(0.5, 0, 1, 1);
+
+uniform sampler2D warp2d : hint_normal;
+uniform vec4 warp_pan_scale = vec4(0.5, 0, 1, 1);
+uniform float warp_strength = 1;
+
+uniform sampler2D color_grad2d : hint_albedo;
+
+uniform bool alpha_uv_grad_axis;
+uniform bool alpha_uv_grad_uv2;
+uniform sampler2D alpha_uv_grad_curve2d;
+
+uniform sampler2D alpha_curve2d;
+
+
+void fragment() {
+	vec2 warp = texture(warp2d, UV * warp_pan_scale.zw + TIME * warp_pan_scale.xy).rg * warp_strength;
+	vec2 main_uv = UV * main_pan_scale.zw + TIME * main_pan_scale.xy + warp;
+	float main = texture(main2d, main_uv).r;
+	
+	vec2 alpha_uv_grad_uv = alpha_uv_grad_uv2 ? UV2 : UV;
+	float alpha_uv_grad = texture(alpha_uv_grad_curve2d, vec2(alpha_uv_grad_axis ? alpha_uv_grad_uv.x : alpha_uv_grad_uv.y)).r;
+	vec2 at = vec2(main * alpha_uv_grad);
+	
+	ALBEDO = texture(color_grad2d, at).rgb * brightness;
+	ALPHA = clamp(texture(alpha_curve2d, at).r, 0, 1);
+}"
