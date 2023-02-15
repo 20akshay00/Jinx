@@ -33,6 +33,9 @@ func _ready():
 	yield(self, "draw")
 	randomize()
 	path_noise.seed = randi()
+	var road_img = Image.new()
+	road_img.create(size.x * 2, size.y * 2, true, Image.FORMAT_R8)
+	road_img.lock()
 	for x in range(-size.x, size.x):
 		for y in range(-size.y, size.y):
 			var xy = Vector2(x, y)
@@ -41,13 +44,18 @@ func _ready():
 			astar.add_point(id, xy, weight * 20)
 			astar_point_map[xy] = id
 #			draw_rect(Rect2(xy * 10, Vector2(10, 10)), Color().from_hsv(0, 0, weight))
-			if abs(weight - 0.5) < 0.03:
+			var road_bias = 0.03
+			if weight > 0.5 - road_bias and weight < 0.5 + road_bias:
 #				draw_circle(xy * 10, 3, Color.aqua)
 				var shape = CollisionShape2D.new()
 				shape.shape = CircleShape2D.new()
 				shape.shape.radius = 7.5
 				shape.position = xy * 10
 				$StaticBody2D.add_child(shape)
+				road_img.set_pixelv(xy + size, Color.white)
+			else:
+				road_img.set_pixelv(xy + size, Color.black)
+	road_img.save_png("res://test.png")
 	
 	for center in astar.get_points():
 		for direction in DIR:

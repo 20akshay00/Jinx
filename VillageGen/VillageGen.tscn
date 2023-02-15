@@ -1,12 +1,27 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://VillageGen/VillageGen.gd" type="Script" id=1]
+[ext_resource path="res://Terrain/Textures/Rock022_1K_Color.png" type="Texture" id=2]
+[ext_resource path="res://Terrain/splatmap.png" type="Texture" id=3]
+[ext_resource path="res://Terrain/Textures/Ground055S_1K_Color.png" type="Texture" id=4]
+[ext_resource path="res://Terrain/terrain_shader.tres" type="Shader" id=5]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 period = 15.0
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 35.0143
+
+[sub_resource type="PlaneMesh" id=3]
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 5 )
+shader_param/blend_smoothness = 0.25
+shader_param/l1_data = Plane( 5, 5, 0, 0 )
+shader_param/l2_data = Plane( 5, 5, 0, 0 )
+shader_param/splatmap = ExtResource( 3 )
+shader_param/l1_albedo = ExtResource( 4 )
+shader_param/l2_albedo = ExtResource( 2 )
 
 [node name="VillageGen" type="Node2D"]
 script = ExtResource( 1 )
@@ -23,3 +38,7 @@ gravity_scale = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="House"]
 shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )
