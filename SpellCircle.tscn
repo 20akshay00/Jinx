@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://SpellCircle.gd" type="Script" id=1]
 [ext_resource path="res://Vfx/SpellCircle/circles/circles_5.mesh" type="ArrayMesh" id=2]
@@ -9,53 +9,6 @@
 [ext_resource path="res://Vfx/Shaders/vfx1_shader.tres" type="Shader" id=7]
 [ext_resource path="res://Vfx/purple_grad.tres" type="Texture" id=8]
 [ext_resource path="res://Vfx/magic_text_Text.mesh" type="ArrayMesh" id=9]
-
-[sub_resource type="CylinderMesh" id=1]
-top_radius = 4.0
-bottom_radius = 4.0
-height = 0.01
-
-[sub_resource type="Shader" id=3]
-code = "/*
-	魔法防御シェーダー 2 by あるる（きのもと 結衣）
-	Magical Shield Shader 2 by Yui Kinomoto @arlez80
-
-	MIT License
-*/
-
-shader_type spatial;
-render_mode unshaded, depth_draw_never;
-
-uniform vec4 barrier_color : hint_color = vec4( 0.05, 1.0, 0.5, 1.0 );
-uniform float barrier_force = 1.0;
-uniform float barrier_interval = 50.0;
-uniform float barrier_speed = 10.0;
-
-void fragment( )
-{
-	vec3 v = ( CAMERA_MATRIX * vec4( VERTEX, 1.0 ) ).xyz;
-	float f = sin( v.y * barrier_interval + TIME * barrier_speed );
-	ALBEDO = barrier_color.rgb;
-	ALPHA = clamp( ( 1.0 - dot( NORMAL, VIEW ) ) * f * barrier_force, 0.0, 1.0 );
-}
-"
-
-[sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
-shader_param/barrier_color = Color( 0.05, 1, 0.5, 1 )
-shader_param/barrier_force = 2.0
-shader_param/barrier_interval = 15.0
-shader_param/barrier_speed = 15.0
-
-[sub_resource type="CylinderMesh" id=5]
-material = SubResource( 4 )
-top_radius = 4.0
-bottom_radius = 4.0
-height = 10.0
-
-[sub_resource type="CylinderShape" id=2]
-height = 10.0
-radius = 4.0
 
 [sub_resource type="Curve" id=47]
 _data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
@@ -126,17 +79,101 @@ tracks/0/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
+[sub_resource type="CylinderMesh" id=1]
+top_radius = 4.0
+bottom_radius = 4.0
+height = 0.01
+
+[sub_resource type="SpatialMaterial" id=57]
+albedo_color = Color( 0.427451, 0.427451, 0.427451, 1 )
+
+[sub_resource type="Shader" id=3]
+code = "/*
+	魔法防御シェーダー 2 by あるる（きのもと 結衣）
+	Magical Shield Shader 2 by Yui Kinomoto @arlez80
+
+	MIT License
+*/
+
+shader_type spatial;
+render_mode unshaded, depth_draw_never;
+
+uniform vec4 barrier_color : hint_color = vec4( 0.05, 1.0, 0.5, 1.0 );
+uniform float barrier_force = 1.0;
+uniform float barrier_interval = 50.0;
+uniform float barrier_speed = 10.0;
+
+void fragment( )
+{
+	vec3 v = ( CAMERA_MATRIX * vec4( VERTEX, 1.0 ) ).xyz;
+	float f = sin( v.y * barrier_interval + TIME * barrier_speed );
+	ALBEDO = barrier_color.rgb;
+	ALPHA = clamp( ( 1.0 - dot( NORMAL, VIEW ) ) * f * barrier_force, 0.0, 1.0 );
+}
+"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/barrier_color = Color( 0.05, 1, 0.5, 1 )
+shader_param/barrier_force = 2.0
+shader_param/barrier_interval = 15.0
+shader_param/barrier_speed = 15.0
+
+[sub_resource type="CylinderMesh" id=5]
+material = SubResource( 4 )
+top_radius = 4.0
+bottom_radius = 4.0
+height = 10.0
+
+[sub_resource type="CylinderShape" id=2]
+height = 10.0
+radius = 4.0
+
 [node name="SpellCircle" type="Spatial"]
 script = ExtResource( 1 )
 num_runes = 7
 
-[node name="Base" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
+[node name="Visuals" type="Spatial" parent="."]
 
-[node name="ForceField" type="MeshInstance" parent="."]
+[node name="OmniLight" type="OmniLight" parent="Visuals"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25215, 0 )
+light_color = Color( 0.584314, 0.172549, 1, 1 )
+light_energy = 1.5
+omni_range = 7.97792
+omni_attenuation = 0.1
+
+[node name="circles_border" type="MeshInstance" parent="Visuals"]
+transform = Transform( 3.99122, 0, 0, 0, 1, 0, 0, 0, 3.99122, 0, 0, 0 )
+mesh = ExtResource( 3 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 4 )
+
+[node name="circles_5" type="MeshInstance" parent="Visuals"]
+transform = Transform( 3.32737, 0, 0, 0, 1, 0, 0, 0, 3.32737, 0, 0.0990458, 0 )
+mesh = ExtResource( 2 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 46 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Visuals"]
+transform = Transform( -0.307165, 0, 0.827517, 0, 1, 0, -0.827517, 0, -0.307165, 0, 0.147485, 0 )
+mesh = ExtResource( 9 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 55 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals/MeshInstance"]
+autoplay = "New Anim"
+"anims/New Anim" = SubResource( 56 )
+
+[node name="Base" type="MeshInstance" parent="Visuals"]
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 57 )
+
+[node name="ForceField" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
 visible = false
 mesh = SubResource( 5 )
+skeleton = NodePath("../..")
 
 [node name="Area" type="Area" parent="."]
 
@@ -147,31 +184,5 @@ shape = SubResource( 2 )
 [node name="Runes" type="Spatial" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25215, 0 )
-light_color = Color( 0.584314, 0.172549, 1, 1 )
-light_energy = 1.5
-omni_range = 7.97792
-omni_attenuation = 0.1
-
-[node name="circles_border" type="MeshInstance" parent="."]
-transform = Transform( 3.99122, 0, 0, 0, 1, 0, 0, 0, 3.99122, 0, 0, 0 )
-mesh = ExtResource( 3 )
-material/0 = ExtResource( 4 )
-
-[node name="circles_5" type="MeshInstance" parent="."]
-transform = Transform( 3.32737, 0, 0, 0, 1, 0, 0, 0, 3.32737, 0, 0.0990458, 0 )
-mesh = ExtResource( 2 )
-material/0 = SubResource( 46 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( -0.307165, 0, 0.827517, 0, 1, 0, -0.827517, 0, -0.307165, 0, 0.147485, 0 )
-mesh = ExtResource( 9 )
-material/0 = SubResource( 55 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance"]
-autoplay = "New Anim"
-"anims/New Anim" = SubResource( 56 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

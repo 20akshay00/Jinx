@@ -7,7 +7,7 @@ export var inactive_color = Color(1.0, 1.0, 1.0, 1.0)
 
 onready var area = $Area
 onready var timer = $Timer
-onready var force_field = $ForceField
+onready var force_field = $Visuals/ForceField
 
 var rune_list = []
 var spell_list = []

@@ -13,9 +13,9 @@
 shader = ExtResource( 1 )
 shader_param/specular = 0.5
 shader_param/rim_tint = 1.0
-shader_param/l1_data = Plane( 32, 0, 0.7, 1 )
-shader_param/l2_data = Plane( 64, 0.1, 0.7, 1 )
-shader_param/l3_data = Plane( 32, 0.1, 0.7, 1 )
+shader_param/l1_data = Plane( 32, 0, 0.8, 0.5 )
+shader_param/l2_data = Plane( 64, 0.1, 0.8, 0.5 )
+shader_param/l3_data = Plane( 32, 0.1, 0.8, 0.5 )
 shader_param/splatmap = ExtResource( 6 )
 shader_param/l1_albedo = ExtResource( 4 )
 shader_param/l1_normal = ExtResource( 5 )
