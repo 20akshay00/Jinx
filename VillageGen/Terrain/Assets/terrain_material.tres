@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=2]
+
+[ext_resource path="res://VillageGen/Terrain/Assets/terrain_shader.tres" type="Shader" id=1]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/road_normal.png" type="Texture" id=2]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/golden_sand_albedo.png" type="Texture" id=3]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/sand_albedo.png" type="Texture" id=4]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/sand_normal.png" type="Texture" id=5]
+[ext_resource path="res://VillageGen/Terrain/Assets/splatmap.tres" type="Texture" id=6]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/road_albedo.png" type="Texture" id=7]
+[ext_resource path="res://VillageGen/Terrain/Assets/Textures/golden_sand_normal.png" type="Texture" id=8]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/specular = 0.5
+shader_param/rim_tint = 1.0
+shader_param/l1_data = Plane( 32, 0, 0.7, 1 )
+shader_param/l2_data = Plane( 64, 0.1, 0.7, 1 )
+shader_param/l3_data = Plane( 32, 0.1, 0.7, 1 )
+shader_param/splatmap = ExtResource( 6 )
+shader_param/l1_albedo = ExtResource( 4 )
+shader_param/l1_normal = ExtResource( 5 )
+shader_param/l2_albedo = ExtResource( 3 )
+shader_param/l2_normal = ExtResource( 8 )
+shader_param/l3_albedo = ExtResource( 7 )
+shader_param/l3_normal = ExtResource( 2 )

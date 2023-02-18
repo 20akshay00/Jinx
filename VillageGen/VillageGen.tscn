@@ -1,44 +1,44 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://VillageGen/VillageGen.gd" type="Script" id=1]
-[ext_resource path="res://Terrain/Textures/Rock022_1K_Color.png" type="Texture" id=2]
-[ext_resource path="res://Terrain/splatmap.png" type="Texture" id=3]
-[ext_resource path="res://Terrain/Textures/Ground055S_1K_Color.png" type="Texture" id=4]
-[ext_resource path="res://Terrain/terrain_shader.tres" type="Shader" id=5]
 
 [sub_resource type="OpenSimplexNoise" id=1]
-period = 15.0
+period = 57.9
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 35.0143
+[sub_resource type="OpenSimplexNoise" id=6]
+period = 32.0
 
-[sub_resource type="PlaneMesh" id=3]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 18.1, 15.3 )
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 5 )
-shader_param/blend_smoothness = 0.25
-shader_param/l1_data = Plane( 5, 5, 0, 0 )
-shader_param/l2_data = Plane( 5, 5, 0, 0 )
-shader_param/splatmap = ExtResource( 3 )
-shader_param/l1_albedo = ExtResource( 4 )
-shader_param/l2_albedo = ExtResource( 2 )
+[sub_resource type="CircleShape2D" id=5]
+radius = 1.0
 
 [node name="VillageGen" type="Node2D"]
 script = ExtResource( 1 )
 path_noise = SubResource( 1 )
-size = Vector2( 32, 32 )
+sand_second_layer_noise = SubResource( 6 )
+terrain_size = Vector2( 256, 256 )
+house_grid_size = Vector2( 4, 4 )
+house_world_size = Vector2( 18.1, 15.3 )
+road_bias = 0.03
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
 current = true
+zoom = Vector2( 0.25, 0.25 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Prefabs" type="Node2D" parent="."]
 
-[node name="House" type="RigidBody2D" parent="."]
+[node name="House" type="RigidBody2D" parent="Prefabs"]
 gravity_scale = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="House"]
-shape = SubResource( 2 )
+[node name="Shape" type="CollisionShape2D" parent="Prefabs/House"]
+shape = SubResource( 4 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 3 )
-material/0 = SubResource( 5 )
+[node name="Road" type="CollisionShape2D" parent="Prefabs"]
+shape = SubResource( 5 )
+
+[node name="Roads" type="StaticBody2D" parent="."]
+
+[node name="Houses" type="Node2D" parent="."]
