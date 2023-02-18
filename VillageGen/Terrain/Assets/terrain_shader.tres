@@ -1,0 +1,62 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_blinn, specular_phong;
+
+// layer data > x: uv scale, y: blend sharpness, z: roughness, w: rim
+
+uniform float specular : hint_range(0.0, 1.0) = 0.5;
+uniform float rim_tint : hint_range(0.0, 1.0) = 0.5;
+
+uniform sampler2D splatmap : hint_black;
+
+uniform sampler2D l1_albedo : hint_albedo;
+uniform sampler2D l1_normal : hint_normal;
+uniform vec4 l1_data = vec4(1, 0.1, 0.5, 0.5);
+
+uniform sampler2D l2_albedo : hint_albedo;
+uniform sampler2D l2_normal : hint_normal;
+uniform vec4 l2_data = vec4(1, 0.1, 0.5, 0.5);
+
+uniform sampler2D l3_albedo : hint_albedo;
+uniform sampler2D l3_normal : hint_normal;
+uniform vec4 l3_data = vec4(1, 0.1, 0.5, 0.5);
+
+vec4 heightblend(vec4 input1, float height1, vec4 input2, float height2, float blend_smoothness)
+{
+	float height_start = max(height1, height2) - blend_smoothness;
+	float b1 = max(height1 - height_start, 0);
+	float b2 = max(height2 - height_start, 0);
+	return ((input1 * b1) + (input2 * b2)) / (b1 + b2);
+}
+vec4 heightlerp(vec4 input1, float height1, vec4 input2, float height2, float lerp, float blend_smoothness)
+{
+	return heightblend(input1, height1 * (1.0 - lerp), input2, height2 * lerp, blend_smoothness);
+}
+
+void fragment()
+{
+	vec4 splat = texture(splatmap, UV * 3.);
+	
+	vec4 l1a = texture(l1_albedo, UV * l1_data.x);
+	vec4 l1n = texture(l1_normal, UV * l1_data.x);
+	vec4 l2a = texture(l2_albedo, UV * l2_data.x);
+	vec4 l2n = texture(l2_normal, UV * l2_data.x);
+	vec4 l3a = texture(l3_albedo, UV * l3_data.x);
+	vec4 l3n = texture(l3_normal, UV * l3_data.x);
+	
+	vec4 normal_result = heightlerp(l1n, l1a.a, l2n, l2a.a, splat.r, l2_data.y);
+	vec4 data_result = heightlerp(l1_data, l1a.a, l2_data, l2a.a, splat.r, l2_data.y);
+	vec4 albedo_result = heightlerp(l1a, l1a.a, l2a, l2a.a, splat.r, l2_data.y);
+	normal_result = heightlerp(normal_result, albedo_result.a, l3n, l3a.a, splat.g, l3_data.y);
+	data_result = heightlerp(data_result, albedo_result.a, l3_data, l3a.a, splat.g, l3_data.y);
+	albedo_result = heightlerp(albedo_result, albedo_result.a, l3a, l3a.a, splat.g, l3_data.y);
+	
+	ALBEDO = albedo_result.rgb;
+	NORMALMAP = normal_result.rgb;
+	ROUGHNESS = data_result.z;
+	SPECULAR = specular;
+	RIM_TINT = rim_tint;
+	RIM = data_result.w;
+}"

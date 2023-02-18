@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://VillageGen/VillageGen.gd" type="Script" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+period = 57.9
+
+[sub_resource type="OpenSimplexNoise" id=6]
+period = 32.0
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 18.1, 15.3 )
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 1.0
+
+[node name="VillageGen" type="Node2D"]
+script = ExtResource( 1 )
+path_noise = SubResource( 1 )
+sand_second_layer_noise = SubResource( 6 )
+terrain_size = Vector2( 256, 256 )
+house_grid_size = Vector2( 4, 4 )
+house_world_size = Vector2( 18.1, 15.3 )
+road_bias = 0.03
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.25, 0.25 )
+
+[node name="Prefabs" type="Node2D" parent="."]
+
+[node name="House" type="RigidBody2D" parent="Prefabs"]
+gravity_scale = 0.0
+
+[node name="Shape" type="CollisionShape2D" parent="Prefabs/House"]
+shape = SubResource( 4 )
+
+[node name="Road" type="CollisionShape2D" parent="Prefabs"]
+shape = SubResource( 5 )
+
+[node name="Roads" type="StaticBody2D" parent="."]
+
+[node name="Houses" type="Node2D" parent="."]
